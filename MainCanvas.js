@@ -10,6 +10,6 @@ class MainCanvas {
         //Called each frame
 
         //Erase last frame
-        //mainCanvas.context.clearRect(0, 0, mainCanvas.canvas.width, mainCanvas.canvas.height);
+        mainCanvas.context.clearRect(0, 0, mainCanvas.canvas.width, mainCanvas.canvas.height);
     }
 }

@@ -2,7 +2,9 @@ var mainCanvas;
 var SCREENWIDTH;
 var SCREENHEIGHT;
 
-var antsList = []; //Contains all ants for calling updateVisuals()
+//Lists of all objects for calling updateVisuals()
+var antsList = [];
+var pheromonesList = []; 
 
 var lastFrameTimeStamp = window.performance.now(); //Run time for animation frames
 
@@ -25,9 +27,14 @@ function advanceFrame(timeStamp) {
 
     if (lastFrameTimeStamp != timeStamp) {
         mainCanvas.updateVisuals(elapsed);
-        //Iterate antsList in reverse in case an ant removes itself
+        //Iterate lists in reverse in case an object removes itself
+        
+        for (let i = pheromonesList.length - 1; i > -1; i--) {
+            pheromonesList[i].updateVisuals(elapsed);
+        }
+        
         for (let i = antsList.length - 1; i > -1; i--) {
-            antsList[i].updateVisuals();
+            antsList[i].updateVisuals(elapsed);
         }
    }
 
@@ -43,5 +50,14 @@ function sizeCanvas()   {
     if (SCREENWIDTH < 750) SCREENWIDTH = 750;
 
     SCREENHEIGHT = SCREENWIDTH * 0.5625; //16:9
+}
+
+//Generate a random number within a given range
+function randBetween(min, max, integer) {
+    max = max + 0.999999999999999; //Max js decimals
+    //To avoid rounding favouring the min and max numbers least, use Math.trunc
+//So max needs to be max + (just under 1) to truncate the int above max
+	if (integer) return Math.trunc(Math.random() * (max - min) + min);
+	return Math.random() * (max - min) + min;
 }
 
